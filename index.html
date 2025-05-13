@@ -1,0 +1,124 @@
+//made with splash screen.
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Made with Grok - Unity Style Splash Screen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000000; /* Unityの黒背景 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .splash-container {
+      display: flex;
+      align-items: center;
+      opacity: 0; /* 初期状態で非表示 */
+    }
+    .made-with {
+      color: #ffffff; /* 白文字 */
+      font-family: 'Exo 2', sans-serif;
+      font-size: 18px; /* 画像の「MADE WITH」に合わせたサイズ */
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-right: 10px; /* ロゴとの間隔 */
+    }
+    .grok-text {
+      color: #ffffff;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 48px; /* 画像の「Unity」に合わせたサイズ */
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 10px; /* ロゴとの間隔 */
+    }
+    .cube-logo {
+      width: 48px; /* キューブロゴのサイズ（「Unity」テキストの高さに合わせる） */
+      height: 48px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate 10s infinite linear; /* ゆっくり回転するアニメーション */
+    }
+    /* キューブの各面をCSSで再現 */
+    .cube-logo div {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(45deg, #a6a6a6, #d3d3d3); /* 画像のグレーグラデーション */
+      border: 1px solid #000000; /* 面の境界を強調 */
+      opacity: 0.9;
+    }
+    .front { transform: translateZ(24px); } /* キューブの前面 */
+    .back { transform: translateZ(-24px) rotateY(180deg); } /* 背面 */
+    .left { transform: rotateY(-90deg) translateZ(24px); } /* 左面 */
+    .right { transform: rotateY(90deg) translateZ(24px); } /* 右面 */
+    .top { transform: rotateX(90deg) translateZ(24px); } /* 上面 */
+    .bottom { transform: rotateX(-90deg) translateZ(24px); } /* 下面 */
+    /* Unityのキューブロゴの切り欠き部分（簡略化） */
+    .front::before, .back::before, .top::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #000000;
+      top: 14px;
+      left: 14px;
+      border-radius: 2px;
+    }
+    /* 回転アニメーション */
+    @keyframes rotate {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <span class="made-with">Made with</span>
+    <div class="cube-logo">
+      <div class="front"></div>
+      <div class="back"></div>
+      <div class="left"></div>
+      <div class="right"></div>
+      <div class="top"></div>
+      <div class="bottom"></div>
+    </div>
+    <span class="grok-text">Hayato</span>  //change this！！！！！！！！！
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script>
+    // コンテナ全体をアニメーション対象とする
+    const splashContainer = document.querySelector('.splash-container');
+
+    // フェードイン（Unityの約1.5秒）
+    gsap.to(splashContainer, {
+      opacity: 1,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      delay: 0.5,
+    });
+
+    // フェードアウト（Unityの約1.5秒、3秒後に開始）
+    gsap.to(splashContainer, {
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      delay: 3,
+      onComplete: () => {
+        // 次のページへ遷移（例: window.location.href = 'next.html'）
+        console.log('Splash screen finished');
+      },
+    });
+
+    // ウィンドウサイズが変わっても中央に表示
+    window.addEventListener('resize', () => {
+      splashContainer.style.lineHeight = `${window.innerHeight}px`;
+    });
+  </script>
+</body>
+</html>
